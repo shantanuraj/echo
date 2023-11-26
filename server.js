@@ -4,6 +4,13 @@ const fastify = Fastify({
   logger: true,
 });
 
+fastify.all("/", async function handler(request, reply) {
+  const headers = request.headers;
+  const query = request.query;
+  const body = request.body;
+  return reply.send({ headers, query, body });
+});
+
 fastify.post("/slack/events", async function handler(request, reply) {
   if (request.body.type === "url_verification")
     return reply.send(request.body.challenge);
